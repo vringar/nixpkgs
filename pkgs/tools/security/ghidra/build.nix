@@ -213,7 +213,7 @@ in stdenv.mkDerivation (finalAttrs: {
       binaryBytecode  # deps
     ];
     license = licenses.asl20;
-    maintainers = with maintainers; [ roblabla emilytrau ];
+    maintainers = with maintainers; [ roblabla vringar ];
     broken = stdenv.isDarwin && stdenv.isx86_64;
   };
 
