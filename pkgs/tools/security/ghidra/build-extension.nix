@@ -47,6 +47,11 @@ let
         runHook postInstall
       '';
 
+      postInstall = ''
+        mkdir -p $out/lib/ghidra/Ghidra/Extensions
+        echo "Built for ${ghidra.pname}" > $out/lib/ghidra/Ghidra/Extensions/${pname}.txt
+       '';
+
       meta = metaCommon meta;
     });
 
