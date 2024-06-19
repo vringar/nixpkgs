@@ -2,8 +2,9 @@
 , fetchFromGitHub
 , lib
 , callPackage
-, gradle_7
+, gradle
 , perl
+, python3
 , makeBinaryWrapper
 , openjdk17
 , unzip
@@ -19,7 +20,7 @@
 let
   pkg_path = "$out/lib/ghidra";
   pname = "ghidra";
-  version = "11.0.3";
+  version = "11.1.1";
 
   releaseName = "NIX";
   distroPrefix = "ghidra_${version}_${releaseName}";
@@ -27,7 +28,7 @@ let
     owner = "NationalSecurityAgency";
     repo = "Ghidra";
     rev = "Ghidra_${version}_build";
-    hash = "sha256-IiLxaJvfJcK275FDZEsUCGp7haJjp8O2fUIoM4F9H30=";
+    hash = "sha256-t96FcAK3JwO66dOf4OhpOfU8CQfAczfF61Cg7m+B3fA=";
     # populate values that require us to use git. By doing this in postFetch we
     # can delete .git afterwards and maintain better reproducibility of the src.
     leaveDotGit = true;
@@ -41,8 +42,6 @@ let
       find "$out" -name .git -print0 | xargs -0 rm -rf
     '';
   };
-
-  gradle = gradle_7;
 
   patches = [
     # Use our own protoc binary instead of the prebuilt one
@@ -106,7 +105,7 @@ HERE
 
     postPatch = addResolveStep;
 
-    nativeBuildInputs = [ gradle perl ] ++ lib.optional stdenv.isDarwin xcbuild;
+    nativeBuildInputs = [ gradle python3 perl ] ++ lib.optional stdenv.isDarwin xcbuild;
     buildPhase = ''
       runHook preBuild
       export HOME="$NIX_BUILD_TOP/home"
@@ -132,7 +131,7 @@ HERE
     '';
     outputHashAlgo = "sha256";
     outputHashMode = "recursive";
-    outputHash = "sha256-nKfJiGoZlDEpbCmYVKNZXz2PYIosCd4nPFdy3MfprHc=";
+    outputHash = "sha256-66gL4UFlBUo2JIEOXoF6tFvXtBdEX4b2MeSrV1b6Vg4=";
   };
 
 in stdenv.mkDerivation (finalAttrs: {
